@@ -13,11 +13,11 @@ import IconLinkedIn from '@/components/icons/IconLinkedIn.vue';
       experience includes integrating Web3 technologies, developing document management tools, and creating dashboards
       for blockchain projects.
     </p>
-    <p class="text-gray-700 dark:text-gray-300 mb-4" data-aos="fade-up" data-aos-delay="250">
+    <p class="text-gray-700 dark:text-gray-300 mb-4" data-aos="fade-up" data-aos-delay="350">
       I enjoy collaborating on open-source projects and sharing solutions with the developer community. My GitHub
       features a variety of apps, from cost calculation systems to Web3 dashboards and business websites.
     </p>
-    <p class="text-gray-700 dark:text-gray-300 mb-4" data-aos="fade-up" data-aos-delay="300">
+    <p class="text-gray-700 dark:text-gray-300 mb-4" data-aos="fade-up" data-aos-delay="500">
       Outside of coding, I’m passionate about music production in Ableton and always exploring new frameworks and tools.
       Connect with me on
       <a href="https://www.linkedin.com/in/matej-arh-48902026/"
