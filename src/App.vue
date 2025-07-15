@@ -10,33 +10,63 @@ const { isDark, toggleTheme } = useTheme()
 
 const showHeader = ref(false)
 const showMain = ref(false)
+const isMessenger = ref(false)
 
 onMounted(() => {
+  const ua = navigator.userAgent
+  isMessenger.value = ua.includes('FBAN') || ua.includes('FBAV')
+
+  if (isMessenger.value) {
+    document.body.classList.add('messenger-browser')
+  }
+
   setTimeout(() => {
-    //mobileNavOpen.value = false
     showHeader.value = true
-  }, 200) // Close mobile nav on mount
+  }, 200)
+
   setTimeout(() => {
     showMain.value = true
-  }, 400) // matches your .fade transition duration
+  }, 400)
 })
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-white relative">
-    <!-- Polygrid background overlay -->
+  <div
+    class="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-white relative"
+  >
+    <!-- Polygrid background -->
     <img
       :src="polygrid"
       alt="Background grid"
       class="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-30 dark:opacity-20"
-      style="z-index:0;"
+      style="z-index: 0;"
     />
 
+    <!-- Messenger browser warning -->
+    <div
+      v-if="isMessenger"
+      class="fixed bottom-4 inset-x-4 z-50 bg-yellow-100 text-yellow-900 p-3 rounded shadow text-sm flex items-center justify-between max-w-screen-sm mx-auto"
+    >
+      <span>This browser is limited —</span>
+      <a
+        :href="window.location.href"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline font-medium ml-2"
+      >
+        open in browser
+      </a>
+    </div>
+
+    <!-- Header -->
     <Transition name="slide-top" appear>
-      <header v-if="showHeader" class="bg-white/50 dark:bg-gray-800/50 shadow sticky top-0 z-10 backdrop-blur-md dark:backdrop-blur-md">
+      <header
+        v-show="showHeader"
+        class="bg-white/50 dark:bg-gray-800/50 shadow sticky top-0 z-10 backdrop-blur-md"
+      >
         <nav class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
           <router-link to="/" class="flex items-center space-x-2">
-            <img :src="Logo" alt="Logo" class="w-8 h-8">
+            <img :src="Logo" alt="Logo" class="w-8 h-8" />
             <span class="text-xl font-bold">Matej Arh</span>
           </router-link>
 
@@ -50,7 +80,7 @@ onMounted(() => {
             </button>
           </div>
 
-          <!-- Mobile toggle -->
+          <!-- Mobile menu toggle -->
           <button class="md:hidden" @click="mobileNavOpen = !mobileNavOpen">
             <component :is="mobileNavOpen ? XMarkIcon : Bars3Icon" class="w-6 h-6" />
           </button>
@@ -70,8 +100,13 @@ onMounted(() => {
       </header>
     </Transition>
 
+    <!-- Page Content -->
     <Transition name="fade" appear>
-      <main v-if="showMain" class="max-w-screen-xl mx-auto px-6 py-10 sm:px-10 relative" style="z-index:1;">
+      <main
+        v-show="showMain"
+        class="max-w-screen-xl mx-auto px-6 py-10 sm:px-10 relative"
+        style="z-index: 1;"
+      >
         <router-view />
       </main>
     </Transition>
@@ -79,20 +114,31 @@ onMounted(() => {
 </template>
 
 <style>
-.fade-enter-active, .fade-leave-active {
+/* Fade transition */
+.fade-enter-active,
+.fade-leave-active {
   transition: all 0.4s ease;
 }
-.fade-enter-from, .fade-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
   transform: translateY(10px);
 }
 
-/* Slide from top transition for header */
-.slide-top-enter-active, .slide-top-leave-active {
-  transition: all 0.4s cubic-bezier(.55,0,.1,1);
+/* Slide from top transition */
+.slide-top-enter-active,
+.slide-top-leave-active {
+  transition: all 0.4s cubic-bezier(0.55, 0, 0.1, 1);
 }
-.slide-top-enter-from, .slide-top-leave-to {
+.slide-top-enter-from,
+.slide-top-leave-to {
   opacity: 0;
   transform: translateY(-40px);
+}
+
+/* Messenger browser overrides */
+body.messenger-browser .aos-animate {
+  opacity: 1 !important;
+  transform: none !important;
 }
 </style>

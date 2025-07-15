@@ -12,10 +12,11 @@ import 'aos/dist/aos.css'
 
 AOS.init({
   duration: 800,
+  offset: 50,
   easing: 'ease-out-cubic',
-  once: true,
+  once: false,
   mirror: false,
-  disable: 'mobile',
+  /* disable: 'mobile', */
 })
 
 const app = createApp(App)
